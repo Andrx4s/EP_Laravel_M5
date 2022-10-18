@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Admin\User\NewUserValidation;
+use App\Http\Requests\Admin\User\UserUpdateRoleValidation;
+use App\Http\Requests\Admin\User\UserUpdateValidation;
 use App\Http\Requests\LoginValidation;
 use App\Http\Requests\RegisterValidation;
-use App\Http\Requests\User\NewUserValidation;
-use App\Http\Requests\User\UserUpdateValidation;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -57,7 +58,7 @@ class UserController extends Controller
         $requests = $request->validated();
         $requests['password'] = Hash::make($requests['password']);
         User::create($requests);
-        return back()->with(['register' => true]);
+        return redirect()->route('login')->with(['register' => true]);
     }
 
     /**
@@ -78,8 +79,8 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-
-        return view('admin.user.users', compact('users'));
+        $roles = Role::all();
+        return view('admin.users.users', compact('users', 'roles'));
     }
 
     /**
@@ -92,7 +93,7 @@ class UserController extends Controller
     {
         $roles = Role::all();
         $request->session()->flashInput($user->toArray());
-        return view('admin.user.createOrUpdate', compact('user' , 'roles'));
+        return view('admin.users.Update', compact('user' , 'roles'));
     }
 
     /**
@@ -105,7 +106,7 @@ class UserController extends Controller
     {
         $validate = $request->validated();
         $user->update($validate);
-        return back()->with(['success' => true]);
+        return redirect()->route('admin.user.index')->with(['update' => true]);
     }
 
     /**
@@ -126,7 +127,7 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::all();
-        return view('admin.user.newRegister', compact('roles'));
+        return view('admin.users.newRegister', compact('roles'));
     }
 
     /**
@@ -137,14 +138,9 @@ class UserController extends Controller
     public function store(NewUserValidation $request)
     {
         $requests = $request->validated();
-        unset($requests['photo_file']);
-        # public/asd.jpg
-        $photo = $request->file('photo_file')->store('public');
-        # Explode => / => public/asd,jpg => ['public', 'asd.jpg']
-        $requests['avatar'] = explode('/', $photo)[1];
         $requests['password'] = Hash::make($requests['password']);
         User::create($requests);
-        return back()->with(['register' => true]);
+        return redirect()->route('admin.user.index')->with(['register' => true]);
     }
 
     /**
@@ -154,6 +150,14 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('admin.user.show', compact('user'));
+        return view('admin.users.show', compact('user'));
+    }
+
+    public function updateRole(UserUpdateRoleValidation $request, User $user)
+    {
+        $roles = Role::all();
+        $validate = $request->validated();
+        $user->update($validate);
+        return redirect()->route('admin.user.index', compact('user', 'roles'))->with(['update' => true]);
     }
 }

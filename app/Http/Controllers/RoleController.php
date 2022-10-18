@@ -38,7 +38,7 @@ class RoleController extends Controller
     {
         $validate = $request->validated();
         Role::create($validate);
-        return redirect()->route('admin.roles.index')->with(['success' => true]);
+        return redirect()->route('admin.roles.index')->with(['create' => true]);
     }
 
     /**

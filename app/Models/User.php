@@ -25,8 +25,6 @@ class User extends Authenticatable
         'gender',
         'password',
         'role_id',
-        'cabinet_id',
-        'privacy'
     ];
 
     /**
@@ -38,12 +36,4 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
-    /**
-     * Связь с таблицой roles
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function cabinet()
-    {
-        return $this->belongsTo(Cabinet::class);
-    }
 }

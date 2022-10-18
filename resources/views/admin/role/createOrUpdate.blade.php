@@ -12,7 +12,7 @@
                         <div class="alert alert-success">Роль успешно отредактирована!</div>
                     @endif
                 @else
-                    <h1>Создание новой роли</h1>
+                    <h1 class="mt-2">Создание новой роли</h1>
                     @if(session()->has('success'))
                         <div class="alert alert-success">Роль успешно создана!</div>
                     @endif

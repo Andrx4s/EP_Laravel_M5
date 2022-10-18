@@ -17,7 +17,7 @@
         <div class="collapse navbar-collapse order-lg-2" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">Главная</a>
+                    <a class="nav-link" href="/">Главная</a>
                 </li>
                 @guest
                     <li class="nav-item">
@@ -30,10 +30,11 @@
                 @auth
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Посты
+                            Кабинеты
                         </a>
                         <ul class="dropdown-menu">
-
+                            <li><a class="dropdown-item" href="{{route('admin.cabinets.index')}}">Просмотр кабинетов</a></li>
+                            <li><a class="dropdown-item" href="{{route('admin.cabinets.create')}}">Добавить кабинет</a></li>
                         </ul>
                     </li>
                     @if(Auth::user()->role->name == 'Администратор')
@@ -42,10 +43,20 @@
                                 Администрирование
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <li><a class="dropdown-item" href="{{route('admin.roles.index')}}">Просмотр ролей</a></li>
-                                <li><a class="dropdown-item" href="{{route('admin.roles.create')}}">Добавить роль</a></li>
-                                <li><a class="dropdown-item" href="{{route('admin.user.index')}}">Все пользователи</a></li>
-                                <li><a class="dropdown-item" href="{{route('admin.user.create')}}">Добавить пользователя</a></li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-item dropdown-toggle">Работа с ролями</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="{{route('admin.roles.index')}}">Просмотр ролей</a></li>
+                                        <li><a class="dropdown-item" href="{{route('admin.roles.create')}}">Добавить роль</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-item dropdown-toggle">Работа с пользователями</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="{{route('admin.user.index')}}">Все пользователи</a></li>
+                                        <li><a class="dropdown-item" href="{{route('admin.user.create')}}">Добавить пользователя</a></li>
+                                    </ul>
+                                </li>
                             </ul>
                         </li>
                     @endif

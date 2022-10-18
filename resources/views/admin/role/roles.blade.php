@@ -1,6 +1,6 @@
 @extends('welcome')
 
-{{--Секция для вывоза всех ролей--}}
+{{--Секция для вывода всех ролей--}}
 @section('content')
     <div class="container">
         <div class="row">
@@ -8,20 +8,27 @@
             <div class="col-8">
                 @if(session()->has('success'))
                     @if(session()->get('success'))
-                        <div class="alert alert-success">Роль успешно изменена!</div>
+                        <div class="alert alert-success mt-2">Роль успешно изменена!</div>
                     @else
-                        <div class="alert alert-success">У вас нет доступа!</div>
+                        <div class="alert alert-success mt-2">У вас нет доступа!</div>
                     @endif
                 @endif
                 @if(session()->has('delete'))
                     @if(session()->get('delete'))
-                        <div class="alert alert-success">Роль успешно изменена!</div>
+                        <div class="alert alert-success mt-2">Роль успешно удалена!</div>
                     @else
-                        <div class="alert alert-success">У вас нет доступа!</div>
+                        <div class="alert alert-success mt-2">У вас нет доступа!</div>
                     @endif
                 @endif
+                    @if(session()->has('create'))
+                        @if(session()->get('create'))
+                            <div class="alert alert-success mt-2">Роль успешно добавлена!</div>
+                        @else
+                            <div class="alert alert-success mt-2">У вас нет доступа!</div>
+                       @endif
+                    @endif
 
-                <h2>Роли: </h2>
+                <h2 class="mt-2">Роли:</h2>
 
                 <table class="table">
                     <thead>
@@ -38,8 +45,8 @@
                                 <tr>
                                     <td>{{$role->name}}</td>
                                     <td>{{$role->en_name}}</td>
-                                    <td><a href="{{route('admin.roles.edit', ['role' => $role->id])}}" class="btn btn-primary">Редактирование</a> </td>
-                                    <td><button class="btn btn-danger" id="roleDelete_{{$role->id}}" data-bs-toggle="modal" data-bs-target="#roleDestroy_{{$role->id}}" type="button">Удаление</button></td>
+                                    <td><a href="{{route('admin.roles.edit', ['role' => $role->id])}}" class="btn btn-primary w-100">Редактирование</a> </td>
+                                    <td><button class="btn btn-danger w-100" id="roleDelete_{{$role->id}}" data-bs-toggle="modal" data-bs-target="#roleDestroy_{{$role->id}}" type="button"><i class="fi-trash"></i></button></td>
                                 </tr>
                                 <div class="modal fade" id="roleDestroy_{{$role->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">

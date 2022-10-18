@@ -31,7 +31,6 @@ return new class extends Migration
             $table->enum('gender', ['Мужчина', 'Женщина']);
             $table->string('password');
             $table->foreignIdFor(Role::class)->default($this->id())->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Cabinet::class)->nullable()->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
