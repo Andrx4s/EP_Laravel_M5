@@ -16,9 +16,6 @@
         <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse order-lg-2" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Главная</a>
-                </li>
                 @guest
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('login')}}">Авторизация</a>
@@ -28,16 +25,19 @@
                     </li>
                 @endguest
                 @auth
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Кабинеты
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{route('admin.cabinets.index')}}">Просмотр кабинетов</a></li>
-                            <li><a class="dropdown-item" href="{{route('admin.cabinets.create')}}">Добавить кабинет</a></li>
-                        </ul>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('record.create')}}">Записаться к врачу</a>
                     </li>
                     @if(Auth::user()->role->name == 'Администратор')
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Кабинеты
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{route('admin.cabinets.index')}}">Просмотр кабинетов</a></li>
+                                <li><a class="dropdown-item" href="{{route('admin.cabinets.create')}}">Добавить кабинет</a></li>
+                            </ul>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Администрирование
@@ -55,6 +55,13 @@
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="{{route('admin.user.index')}}">Все пользователи</a></li>
                                         <li><a class="dropdown-item" href="{{route('admin.user.create')}}">Добавить пользователя</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-item dropdown-toggle">Работа с компетенциями</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="{{route('admin.competencies.index')}}">Все компетенции</a></li>
+                                        <li><a class="dropdown-item" href="{{route('admin.competencies.create')}}">Добавить компетенцию</a></li>
                                     </ul>
                                 </li>
                             </ul>

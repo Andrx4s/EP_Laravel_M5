@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Competence;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,8 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->foreignIdFor(Competence::class)->nullable()->constrained()->cascadeOnDelete();
+        Schema::create('competences', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('en_name')->unique();
+            $table->timestamps();
         });
     }
 
@@ -26,8 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('competences');
     }
 };

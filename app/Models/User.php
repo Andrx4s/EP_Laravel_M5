@@ -25,6 +25,7 @@ class User extends Authenticatable
         'gender',
         'password',
         'role_id',
+        'competence_id',
     ];
 
     /**
@@ -36,4 +37,12 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
+    /**
+     * Связь с таблицой competences
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function competence()
+    {
+        return $this->belongsTo(Competence::class);
+    }
 }

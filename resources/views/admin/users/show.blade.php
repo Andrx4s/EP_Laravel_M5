@@ -16,6 +16,9 @@
                             <p class="card-text">Дата рождения: {{$user->birthday}}</p>
                             <p class="card-text">Пол: {{$user->gender}}</p>
                             <p class="card-text">Роль: {{ $user->role->name }}</p>
+                            @if($user->role->en_name == 'Doctor')
+                                <p class="card-text">Конпетенция: {{ $user->competence->name ?? 'Нет компетенции'}}</p>
+                            @endif
                             <a href="{{route('admin.user.edit', ['user' => $user->id])}}" class="btn btn-primary mt-2">Редактировать</a>
                             <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" href="{{route('admin.user.destroy', ['user' => $user->id])}}" class="btn btn-danger mt-2"><i class="fi-trash"></i></button>
                         </div>

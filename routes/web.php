@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\CabinetController;
+use App\Http\Controllers\CompetenceController;
+use App\Http\Controllers\RecordController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +34,8 @@ Route::middleware('auth')->group(function() {
 //  Промежуточная проверка ролей авторизованных аккаунтов
     Route::middleware('role:Patient,Admin,Doctor')->group(function () {
 
+        Route::resource('/record', RecordController::class);
+
 //      Промежуточная проверка на роль админа
         Route::middleware('role:Admin')->group(function () {
 
@@ -40,7 +44,9 @@ Route::middleware('auth')->group(function() {
                 Route::resource('/user', UserController::class);
                 Route::resource('/cabinets', CabinetController::class);
                 Route::resource('/roles', RoleController::class);
+                Route::resource('/competencies', CompetenceController::class);
                 Route::put('/update/{user}', [UserController::class, 'updateRole'])->name('updateRole');
+                Route::put('/competence/{user}', [UserController::class, 'updateCompetence'])->name('updateCompetence');
             });
         });
     });

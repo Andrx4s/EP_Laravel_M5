@@ -19,6 +19,9 @@
                 @if(session()->has('update'))
                     <div class="alert alert-success">Аккаунт успешно отредактирован!</div>
                 @endif
+                @if(session()->has('updateCompetence'))
+                    <div class="alert alert-success">Компетенция успешно добавлена!</div>
+                @endif
                 @if(Auth::user()->role_id == 3)
                     <h2 class="mt-2">Список пользователей</h2>
                 @endif
@@ -39,12 +42,18 @@
                                         <li class="list-group-item">Пол: {{$item->gender}}</li>
                                         <li class="list-group-item">Телефон: {{$item->phoneNumber}}</li>
                                         <li class="list-group-item">Роль: {{ $item->role->name }}</li>
+                                        @if($item->role->en_name == 'Doctor')
+                                            <li class="list-group-item">Конпетенция: {{ $item->competence->name ?? 'Нет компетенции'}}</li>
+                                        @endif
                                     </ul>
                                     <div class="btn-group" role="group" aria-label="Solid button group">
                                         <a href="{{route('admin.user.edit', ['user' => $item->id])}}" class="btn btn-primary mt-2">Редактировать</a>
                                         <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal_{{ $key }}" href="{{route('admin.user.destroy', ['user' => $item->id])}}" class="btn btn-danger mt-2"><i class="fi-trash"></i></button>
                                         <a href="{{route('admin.user.show', ['user' => $item->id])}}" class="btn btn-info text-white mt-2">Посмотреть</a>
                                         <button type="button" data-bs-toggle="modal" data-bs-target="#UpdateRole_{{ $key }}" class="btn btn-accent mt-2">Поменять роль</button>
+                                        @if($item->role->en_name == 'Doctor')
+                                            <button type="button" data-bs-toggle="modal" data-bs-target="#UpdateCompetence_{{ $key }}" class="btn btn-warning mt-2">Добавить компетенцию</button>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -92,6 +101,35 @@
                                                     @endforeach
                                                 </select>
                                                 @error('role_id') <div id="invalidInputRole" class="invalid-feedback">{{$message}}</div> @enderror
+                                            </div>
+                                            <div class="btn-group" role="group" aria-label="Solid button group">
+                                                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                                                <button type="submit" class="btn btn-sm btn-success">Да я точно хочу поменять роль данному аккаунт!</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="UpdateCompetence_{{ $key }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Добавить компетенцию для {{$item->fullName}}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="POST" action="{{route('admin.updateCompetence', ['user' => $item->id])}}">
+                                            @csrf
+                                            <input type="hidden" name="_method" value="PUT">
+                                            <div class="mb-3">
+                                                <label for="inputCompetence" class="form-label">Конпетенция:</label>
+                                                <select id="inputCompetence" name="competence_id" class="form-select @error('competence_id') is-invalid @enderror" aria-describedby="invalidInputCompetence">
+                                                    @foreach($competencies as $competency)
+                                                        <option value="{{$competency->id}}" @if($competency->id == $item->competence_id) selected @endif>{{$competency->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('competence_id') <div id="invalidInputCompetence" class="invalid-feedback">{{$message}}</div> @enderror
                                             </div>
                                             <div class="btn-group" role="group" aria-label="Solid button group">
                                                 <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Закрыть</button>
